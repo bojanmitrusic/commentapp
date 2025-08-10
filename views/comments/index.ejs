@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Comments index</title>
+</head>
+<body>
+<h1>Comments index</h1>
+<ul>
+   <% for(let c of comments){%>
+    <li><%=c.username%>-<%=c.comment%></li>
+    <a href="/comments/<%=c.id%>">Details</a>
+    <%}%>
+</ul>
+
+<a href="/comments/new">Dodaj komentar</a>
+</body>
+</html>
