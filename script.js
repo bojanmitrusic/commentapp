@@ -39,7 +39,14 @@ app.get('/comments/:id',(req,res)=>{
     res.render('comments/show',{comment});
 })
 
+app.patch('/comments/:id',(req,res)=>{
 
+    const {id} = req.params;
+    const newTextComment = req.body.comment;
+     const foundComment = comments.find((c)=>c.id === id);
+     foundComment.comment = newTextComment;
+     res.redirect('/comments');
+})
 
 app.listen(3030,()=>{
     console.log("Server running on port 3030");
