@@ -1,5 +1,7 @@
 const express = require('express');
 const app = express();
+const methodOverride = require('method-override');
+app.use(methodOverride('_method'));
 const { v4: uuidv4 } = require('uuid');
 
 app.use(express.urlencoded({ extended: true }));
@@ -10,7 +12,7 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 
-const comments = [
+let comments = [
     {id:uuidv4(), username: 'Jane', comment: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.' },
     {id:uuidv4(), username: 'John', comment: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.' },
     {id:uuidv4(), username: 'Aca',  comment: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.' },
@@ -46,6 +48,18 @@ app.patch('/comments/:id',(req,res)=>{
      const foundComment = comments.find((c)=>c.id === id);
      foundComment.comment = newTextComment;
      res.redirect('/comments');
+})
+
+app.get('/comments/:id/edit',(req,res)=>{
+    const {id} = req.params;
+    const comment = comments.find((c)=>c.id === id);
+    res.render('comments/edit',{comment});
+})
+
+app.delete('/comments/:id',(req,res)=>{
+    const {id} = req.params;
+   comments= comments.filter((c)=>c.id !== id);
+   res.redirect('/comments');
 })
 
 app.listen(3030,()=>{
